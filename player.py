@@ -1,6 +1,6 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, LINE_WIDTH
+from constants import PLAYER_RADIUS, LINE_WIDTH, SHIP_TURN_SPEED
 
 #Player inherits directly from CircleShape
 class Player(CircleShape):
@@ -23,13 +23,13 @@ class Player(CircleShape):
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
 #Rotates the player's by the relative fraction of the const to dt; ie dt=1/60 so 1/60th of const or const/60
-    def rotate(dt):
+    def rotate(self, dt):
         self.rotation += (SHIP_TURN_SPEED * dt)
 #
     def update(self, dt):
         keys = pygame.key.get_pressed()
-
+#K_a is apparently rotating left?
         if keys[pygame.K_a]:
-            rotate(dt)*(-1)
+            self.rotate(dt*(-1))
         if keys[pygame.K_d]:
-            rotate(dt)
+            self.rotate(dt)

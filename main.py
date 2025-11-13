@@ -25,8 +25,8 @@ def main():
         screen.fill("black")
 #draws/redraws the player's ship
         player.draw(screen)
-#factor in rotation before final renders
-        player.rotate(dt)
+#factor in rotation before final rendering
+        player.update(dt)
 #shows/renders the new 'imaged'
         pygame.display.flip()
         for event in pygame.event.get():
