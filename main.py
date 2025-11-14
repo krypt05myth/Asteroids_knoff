@@ -1,6 +1,7 @@
+import sys
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from logger import log_state
+from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
@@ -39,6 +40,13 @@ def main():
             ea_drawable.draw(screen)
 #factor in rotation before final rendering
         updatable.update(dt)
+
+        for ea_asteroid in asteroids:
+            if ea_asteroid.collides_with(player):
+                log_event("player_hit")
+                print("Game over!")
+                sys.exit()
+
 #shows/renders the new 'imaged'
         pygame.display.flip()
         for event in pygame.event.get():

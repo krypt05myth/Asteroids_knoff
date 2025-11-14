@@ -7,6 +7,7 @@ LINE_WIDTH = 2
 #how fast the player's ship rotates in the CW or CCW direction
 SHIP_TURN_SPEED = 300
 PLAYER_SPEED = 200
+SHOT_RADIUS = 5
 #asteroid attributes
 ASTEROID_MIN_RADIUS = 20
 ASTEROID_KINDS = 3
