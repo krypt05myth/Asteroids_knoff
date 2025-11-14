@@ -11,6 +11,6 @@ class Asteroid(CircleShape):
     def draw(self, surface):
         pygame.draw.circle(surface, "white", self.position, self.radius, LINE_WIDTH)
     
-#This obviously takes key presses for doin the rotates
+#This obviously 
     def update(self, dt):
        self.position += (self.velocity * dt)
