@@ -2,6 +2,9 @@ import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+
 
 def main():
     VERSION = pygame.version.ver
@@ -13,20 +16,29 @@ def main():
     running = True
     clock = pygame.time.Clock()
     dt = 0
+#Holds Group and Containers objects 
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    asteroids = pygame.sprite.Group() 
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
 #Instantiating Player with x y values
     x = SCREEN_WIDTH/2
     y = SCREEN_HEIGHT/2
     player = Player(x, y)
-
+#Instantiating AsteroidField
+    asteroid_field = AsteroidField()
 #Main game loop runs until "X (close_click)" or "ctrl-c"
     while running:
         log_state()
 #"wipes" the previous frame
         screen.fill("black")
 #draws/redraws the player's ship
-        player.draw(screen)
+        for ea_drawable in drawable:
+            ea_drawable.draw(screen)
 #factor in rotation before final rendering
-        player.update(dt)
+        updatable.update(dt)
 #shows/renders the new 'imaged'
         pygame.display.flip()
         for event in pygame.event.get():
