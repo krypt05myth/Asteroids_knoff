@@ -1,7 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from shot import Shot
-from constants import PLAYER_RADIUS, LINE_WIDTH, SHIP_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import PLAYER_RADIUS, LINE_WIDTH, SHIP_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN_SECONDS
 
 #Player inherits directly from CircleShape
 class Player(CircleShape):
@@ -10,6 +10,8 @@ class Player(CircleShape):
         #CircleShape uses x, y, and PLAYER_RADIUS
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shot_cool_down = 0
+
 # in the Player class
 # A player will look like a triangle, even though we'll use a circle to represent its hitbox. 
 # The math of drawing a triangle can be a bit tricky, so we've written the method for you
@@ -38,8 +40,13 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(dt*(-1))
+        if self.shot_cool_down > 0:
+            self.shot_cool_down -= dt
+            if self.shot_cool_down < 0:
+                self.shot_cool_down = 0
         if keys[pygame.K_SPACE]:
             self.shoot()
+
 #Vector math to carry out the player's moves
     def move(self, dt):
         #1. Draw a unit vector pointing straight up from 0,0 to 0,1
@@ -52,7 +59,11 @@ class Player(CircleShape):
         self.position += rotated_with_speed_vector
 #
     def shoot(self):
+        if self.shot_cool_down > 0:
+            return
+        self.shot_cool_down = PLAYER_SHOOT_COOLDOWN_SECONDS
         shot = Shot(self.position.x, self.position.y)
         shot_vector = pygame.Vector2(0, 1)
         rot_vector = shot_vector.rotate(self.rotation)
         shot.velocity = rot_vector * PLAYER_SHOOT_SPEED
+
