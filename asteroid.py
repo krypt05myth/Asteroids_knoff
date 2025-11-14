@@ -1,8 +1,11 @@
-import pygame 
+#stdlib
 import random
-from logger import log_event
+#3rd party
+import pygame 
+#local
 from circleshape import CircleShape
 from constants import LINE_WIDTH, ASTEROID_MIN_RADIUS
+from logger import log_event
 
 
 class Asteroid(CircleShape):
@@ -10,13 +13,21 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
         self.velocity = pygame.Vector2(0, 0) 
 
-#Overriding the draw method: it calls the draw.circle method from pygame
+#Overriding the draw method from CircleShape
     def draw(self, surface):
-        pygame.draw.circle(surface, "white", self.position, self.radius, LINE_WIDTH)
+        pygame.draw.circle(
+            surface, 
+            "white", 
+            (int(self.position.x),int(self.position.y)), 
+            int(self.radius), 
+            LINE_WIDTH, #trailing comma is 'standard' ; no effect at runtime!
+            )
     
 #This obviously 
     def update(self, dt):
        self.position += (self.velocity * dt)
+       self._wrap_position()
+
 
     def split(self):
         self.kill()
