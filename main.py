@@ -50,6 +50,11 @@ def main():
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+            for ea_shot in shots:
+                if ea_shot.collides_with(ea_asteroid):
+                    log_event("asteroid_shot")
+                    ea_shot.kill()
+                    ea_asteroid.kill()
 
 #shows/renders the new 'imaged'
         pygame.display.flip()
