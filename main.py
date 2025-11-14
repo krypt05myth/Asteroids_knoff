@@ -54,7 +54,7 @@ def main():
                 if ea_shot.collides_with(ea_asteroid):
                     log_event("asteroid_shot")
                     ea_shot.kill()
-                    ea_asteroid.kill()
+                    ea_asteroid.split()
 
 #shows/renders the new 'imaged'
         pygame.display.flip()
