@@ -25,6 +25,11 @@ def main():
     dt = 0  #Delta Time, updated at end of main game while loop
 
 #Holds Group and Containers objects 
+# Mental model
+
+# “containers” = “which groups should this sprite auto-join when constructed?”
+# “groups” = “buckets that let me update/draw/check collisions in bulk.”
+
 # sprite groups
     asteroids = pygame.sprite.Group() 
     drawable = pygame.sprite.Group()
@@ -37,8 +42,8 @@ def main():
     Shot.containers = (shots, updatable, drawable)
 
 # entities 
-    x = SCREEN_WIDTH//2
-    y = SCREEN_HEIGHT//2
+    x = SCREEN_WIDTH//2 #instead of /, to keep integer instead of float
+    y = SCREEN_HEIGHT//2    #reduces "sub-pixel" blurring aka "off-by-one" rendering issues
     player = Player(x, y)
     asteroid_field = AsteroidField()
 
@@ -52,7 +57,7 @@ def main():
                 running = False
 
     #factor in rotation before final rendering
-    # update-then-draw
+    # update-then-draw so that what is drawn is latest intead of one frame behind!
         updatable.update(dt)    
         
     #"wipes" the previous frame
